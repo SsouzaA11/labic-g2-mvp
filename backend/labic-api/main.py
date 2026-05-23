@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from routers import pesquisadores_router, projetos_router, artigos_router, linhas_pesquisa_router, auth_router
 from database import engine, Base
 
-import models.pesquisador
-import models.projeto
+import models.pesquisadores
+import models.projetos
 import models.artigo
 
 Base.metadata.create_all(bind=engine)
