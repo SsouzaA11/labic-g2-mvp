@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Date, ForeignKey, Table
+from sqlalchemy import Column, Integer, String, Text, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
 from models.associacoes import projeto_artigo
@@ -17,9 +17,9 @@ class ArtigoModel(Base):
     status = Column(String(50), default="Rascunho")
 
     # chave estrangeira
-    linhas_pesquisa_id = Column(Integer, ForeignKey("linhas_pesquisa.id_linha"))
+    linha_pesquisa_id = Column(Integer, ForeignKey("linhas_pesquisa.id_linha"))
 
     # relacionamentos da tabela
-    linhas_pesquisa = relationship("LinhaPesquisaModel", back_populates="artigos")
+    linha_pesquisa = relationship("LinhaPesquisaModel", back_populates="artigos")
     projetos = relationship("ProjetoModel", secondary=projeto_artigo, back_populates="artigos")
-    pesquisadores_associacao = relationship("PesquisadorArtigoModel", back_populates="artigos")
+    pesquisadores_associacao = relationship("PesquisadorArtigoModel", back_populates="artigo")
