@@ -9,7 +9,7 @@ class Settings:
     # configurações de segurança
     SECRET_KEY: str = os.getenv("SECRET_KEY", "")
     ALGORITHM: str = "HS256"
-    ACESS_TOKEN_EXPIRE_MINUTES: int = 60
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
     # define o local do banco de dados
     DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://usuario:senha@localhost/labic_db")
