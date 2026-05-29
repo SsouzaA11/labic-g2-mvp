@@ -1,20 +1,31 @@
 from datetime import datetime, timedelta, timezone
 import jwt
-from passlib.context import CryptContext
-from core.config import settings
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from passlib.context import CryptContext
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 from sqlalchemy.orm import Session
+
+# imports internos
+from core.config import settings
 from database import get_db
 from models.pesquisadores import PesquisadorModel
+
+# inicia limitador de brute force
+rastreador_limite = Limiter(ket_func=get_remote_address)
 
 # modelo de geração de hashs
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# funções para senhas
+# TODO definição de link final para login
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+
+# criação de hash para salvar em banco
 def gerar_hash_senha(senha_digitada: str) -> str:
     return pwd_context.hash(senha_digitada)
 
+# verificação de senha com hash salvo em banco
 def verificar_senha(senha_digitada: str, senha_hash_usuario: str) -> bool:
     return pwd_context.verify(senha_digitada, senha_hash_usuario)
 
@@ -36,9 +47,6 @@ def criar_token_acesso(dados_usuario: dict) -> str:
     )
 
     return token_jwt
-
-# TODO definição de link final para login
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 # leitura e validação de token JWT
 def identificar_usuario(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
@@ -79,4 +87,5 @@ def verificar_permissao_admin(usuario: PesquisadorModel = Depends(identificar_us
         )
     
     return usuario
-    
+
+# TODO caminho para usuario que esqueceu senha

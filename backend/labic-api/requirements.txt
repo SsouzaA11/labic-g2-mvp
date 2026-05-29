@@ -8,10 +8,10 @@ psycopg2-binary>=2.9.0
 alembic>=1.13.0
 
 # Segurança e Validação
-fastapi-users[sqlalchemy]>=13.0.0
 passlib[bcrypt]>=1.7.4
 PyJWT>=2.8.0
 pydantic[email]>=2.7.0
+slowapi>=0.2.7
 
 # Ambiente
 python-dotenv>=1.0.0
